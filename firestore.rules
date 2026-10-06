@@ -1,0 +1,53 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Connection health check
+    match /test/connection {
+      allow read: if true;
+    }
+
+    // 2. Strict User Isolation: each authenticated user can only access their own private data
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+
+      // Accounts subcollection
+      match /accounts/{accountId} {
+        allow read, delete: if request.auth != null && request.auth.uid == userId;
+        allow create, update: if request.auth != null && request.auth.uid == userId &&
+          (!('userId' in request.resource.data) || request.resource.data.userId == userId);
+      }
+
+      // Credit Cards subcollection
+      match /creditCards/{cardId} {
+        allow read, delete: if request.auth != null && request.auth.uid == userId;
+        allow create, update: if request.auth != null && request.auth.uid == userId &&
+          (!('userId' in request.resource.data) || request.resource.data.userId == userId);
+      }
+
+      // Categories subcollection
+      match /categories/{categoryId} {
+        allow read, delete: if request.auth != null && request.auth.uid == userId;
+        allow create, update: if request.auth != null && request.auth.uid == userId &&
+          (!('userId' in request.resource.data) || request.resource.data.userId == userId);
+      }
+
+      // Transactions subcollection
+      match /transactions/{transactionId} {
+        allow read, delete: if request.auth != null && request.auth.uid == userId;
+        allow create, update: if request.auth != null && request.auth.uid == userId &&
+          (!('userId' in request.resource.data) || request.resource.data.userId == userId);
+      }
+
+      // Catch-all for any other user-specific subcollections
+      match /{allPaths=**} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+      }
+    }
+
+    // 3. Global Default-Deny: Any request outside /users/{userId} is strictly denied
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

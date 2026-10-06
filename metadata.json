@@ -1,0 +1,8 @@
+{
+  "name": "FinanSimple - Controle Financeiro",
+  "description": "Sistema web minimalista de controle financeiro com receitas, despesas, categorias e gerenciamento CRUD completo.",
+  "requestFramePermissions": [
+    "microphone"
+  ],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

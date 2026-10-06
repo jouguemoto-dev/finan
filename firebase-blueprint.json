@@ -1,0 +1,80 @@
+{
+  "$schema": "https://raw.githubusercontent.com/firebase/firebase-tools/master/schema/blueprint.schema.json",
+  "entities": {
+    "User": {
+      "collection": "users",
+      "fields": {
+        "id": { "type": "string", "description": "User ID matching auth.uid" },
+        "email": { "type": "string", "description": "User email address" },
+        "displayName": { "type": "string", "description": "User display name" },
+        "createdAt": { "type": "timestamp", "description": "Creation timestamp" }
+      }
+    },
+    "Account": {
+      "collection": "users/{userId}/accounts",
+      "fields": {
+        "id": { "type": "string", "description": "Unique account ID" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "name": { "type": "string", "description": "Bank or wallet name" },
+        "type": { "type": "string", "description": "Account type: corrente, poupanca, carteira, investimento, outros" },
+        "initialBalance": { "type": "number", "description": "Initial balance in BRL" },
+        "color": { "type": "string", "description": "Hex color code" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "CreditCard": {
+      "collection": "users/{userId}/creditCards",
+      "fields": {
+        "id": { "type": "string", "description": "Unique credit card ID" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "name": { "type": "string", "description": "Credit card name (ex: Banco Inter, Digio)" },
+        "limit": { "type": "number", "description": "Card limit in BRL" },
+        "closingDay": { "type": "number", "description": "Invoice closing day of month (1-31)" },
+        "dueDay": { "type": "number", "description": "Invoice due day of month (1-31)" },
+        "brand": { "type": "string", "description": "Card brand: Mastercard, Visa, Elo, etc." },
+        "color": { "type": "string", "description": "Hex color code of the card" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" },
+        "updatedAt": { "type": "string", "description": "ISO timestamp" }
+      }
+    },
+    "Category": {
+      "collection": "users/{userId}/categories",
+      "fields": {
+        "id": { "type": "string", "description": "Unique category ID" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "name": { "type": "string", "description": "Category name" },
+        "type": { "type": "string", "description": "receita or despesa" },
+        "icon": { "type": "string", "description": "Optional icon identifier" },
+        "color": { "type": "string", "description": "Optional hex color" }
+      }
+    },
+    "Transaction": {
+      "collection": "users/{userId}/transactions",
+      "fields": {
+        "id": { "type": "string", "description": "Unique transaction ID" },
+        "userId": { "type": "string", "description": "Owner user ID" },
+        "description": { "type": "string", "description": "Transaction description" },
+        "amount": { "type": "number", "description": "Transaction amount in BRL" },
+        "type": { "type": "string", "description": "receita or despesa" },
+        "status": { "type": "string", "description": "pago or pendente" },
+        "categoryId": { "type": "string", "description": "Category ID" },
+        "sourceType": { "type": "string", "description": "conta or cartao" },
+        "accountId": { "type": "string", "description": "Account ID if sourceType is conta" },
+        "creditCardId": { "type": "string", "description": "Credit card ID if sourceType is cartao" },
+        "date": { "type": "string", "description": "Date string YYYY-MM-DD" },
+        "notes": { "type": "string", "description": "Optional notes or details" },
+        "createdAt": { "type": "string", "description": "ISO timestamp" },
+        "installmentCurrent": { "type": "number", "description": "Installment index if installment" },
+        "installmentTotal": { "type": "number", "description": "Total installments count" },
+        "installmentGroupId": { "type": "string", "description": "Group ID of the installment series" },
+        "installmentTotalAmount": { "type": "number", "description": "Total purchase amount" },
+        "isRecurring": { "type": "boolean", "description": "Whether transaction is repeating" },
+        "recurrenceFrequency": { "type": "string", "description": "mensal, quinzenal, semanal, anual" },
+        "recurrenceCurrent": { "type": "number", "description": "Current repetition index" },
+        "recurrenceCount": { "type": "number", "description": "Total repetition count" },
+        "recurrenceGroupId": { "type": "string", "description": "Group ID of the repeating series" }
+      }
+    }
+  }
+}
